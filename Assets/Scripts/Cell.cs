@@ -7,10 +7,6 @@ public class Cell : MonoBehaviour
     public Parameters parameters;
     public List<Cell> links;
 
-    void Start()
-    {
-    }
-
     void Update()
     {
         Vector3 p = this.transform.position;
@@ -23,7 +19,6 @@ public class Cell : MonoBehaviour
 
         }
         springTarget /= links.Count;
-
 
         this.transform.position = p + parameters.springFactor * (springTarget - p);
     }
