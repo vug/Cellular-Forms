@@ -71,9 +71,12 @@ public class Cell : MonoBehaviour
         Gizmos.DrawSphere(debugCellInfo.planarTarget, 0.1f);
 
         Gizmos.color = Color.white;
-        foreach (Cell other in this.links)
+        foreach (Cell other in links)
         {
-            Gizmos.DrawLine(this.transform.position, other.transform.position);
+            Gizmos.DrawLine(transform.position, other.transform.position);
         }
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(transform.position, transform.position + normal);
     }
 }
