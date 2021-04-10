@@ -9,6 +9,10 @@ public class CellsInitializer : MonoBehaviour
     void Start()
     {
         Cell[] cells = makeTetrahedron();
+        foreach (Cell cell in cells)
+        {
+            cell.updateNormal();
+        }
     }
 
     public Cell[] makeTetrahedron()
@@ -35,6 +39,7 @@ public class CellsInitializer : MonoBehaviour
                 cells[i].links.Add(cells[j]);
             }
         }
+
         return cells;
     }
 }
