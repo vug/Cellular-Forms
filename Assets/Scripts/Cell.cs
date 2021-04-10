@@ -2,10 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+struct DebugCellInfo
+{
+    public Vector3 springTarget;
+}
+
 public class Cell : MonoBehaviour
 {
     public Parameters parameters;
     public List<Cell> links;
+    private DebugCellInfo debugCellInfo;
 
     void Update()
     {
@@ -21,5 +27,19 @@ public class Cell : MonoBehaviour
         springTarget /= links.Count;
 
         this.transform.position = p + parameters.springFactor * (springTarget - p);
+
+        debugCellInfo.springTarget = springTarget;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(debugCellInfo.springTarget, 0.1f);
+
+        Gizmos.color = Color.white;
+        foreach (Cell other in this.links)
+        {
+            Gizmos.DrawLine(this.transform.position, other.transform.position);
+        }
     }
 }
