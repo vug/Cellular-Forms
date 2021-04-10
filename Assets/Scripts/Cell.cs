@@ -34,6 +34,14 @@ public class Cell : MonoBehaviour
 
         debugCellInfo.springTarget = springTarget;
         debugCellInfo.planarTarget = planarTarget;
+        if (Input.GetKeyDown("d"))
+        {
+            shouldDrawDebug = true;
+        }
+        if (Input.GetKeyDown("f"))
+        {
+            shouldDrawDebug = false;
+        }
     }
 
     private void OnDrawGizmos()
