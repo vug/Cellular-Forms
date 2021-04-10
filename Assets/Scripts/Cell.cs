@@ -6,6 +6,7 @@ struct DebugCellInfo
 {
     public Vector3 springTarget;
     public Vector3 planarTarget;
+    public Vector3 bulgeTarget;
 }
 
 public class Cell : MonoBehaviour
@@ -24,19 +25,36 @@ public class Cell : MonoBehaviour
 
         Vector3 springTarget = Vector3.zero;
         Vector3 planarTarget = Vector3.zero;
+        //Vector3 bulgeTarget = Vector3.zero;
+        float bulgeDist = 0.0f;
         foreach (Cell other in this.links)
         {
             Vector3 q = other.transform.position;
-            springTarget += q + parameters.linkRestLength * (p - q).normalized;
+            Vector3 d = q - p;
+            springTarget += q + parameters.linkRestLength * -d.normalized;
             planarTarget += q;
+
+            float dSqr = d.sqrMagnitude;
+            float rSqr = parameters.linkRestLength * parameters.linkRestLength;
+            if (dSqr < rSqr) // can't push if too far away
+            {
+                float dot = Vector3.Dot(d, normal);
+                bulgeDist += Mathf.Sqrt(rSqr - dSqr + dot * dot) + dot;
+            }
         }
         springTarget /= links.Count;
         planarTarget /= links.Count;
+        Vector3 bulgeTarget = p + normal * (bulgeDist / links.Count);
 
-        this.transform.position = p + parameters.springFactor * (springTarget - p) + parameters.planarFactor * (planarTarget - p);
+        this.transform.position = p 
+            + parameters.springFactor * (springTarget - p) 
+            + parameters.planarFactor * (planarTarget - p) 
+            + parameters.bulgeFactor * (bulgeTarget - p);
 
         debugCellInfo.springTarget = springTarget;
         debugCellInfo.planarTarget = planarTarget;
+        debugCellInfo.bulgeTarget = bulgeTarget;
+
         if (Input.GetKeyDown("d"))
         {
             shouldDrawDebug = true;
@@ -66,9 +84,10 @@ public class Cell : MonoBehaviour
         if (!shouldDrawDebug) { return; }
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(debugCellInfo.springTarget, 0.1f);
-
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(debugCellInfo.planarTarget, 0.1f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(debugCellInfo.bulgeTarget, 0.1f);
 
         Gizmos.color = Color.white;
         foreach (Cell other in links)
