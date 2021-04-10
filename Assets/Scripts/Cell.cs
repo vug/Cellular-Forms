@@ -11,7 +11,10 @@ struct DebugCellInfo
 public class Cell : MonoBehaviour
 {
     public Parameters parameters;
+
     public List<Cell> links;
+    public Vector3 normal;
+
     private DebugCellInfo debugCellInfo;
     public bool shouldDrawDebug = false;
 
@@ -42,6 +45,20 @@ public class Cell : MonoBehaviour
         {
             shouldDrawDebug = false;
         }
+    }
+
+    public void updateNormal()
+    {
+        Vector3 p0 = transform.position;
+        Vector3 p1 = links[links.Count - 1].transform.position;
+        Vector3 triangle_normals_total = Vector3.zero;
+        foreach (Cell cell in links)
+        {
+            Vector3 p2 = cell.transform.position;
+            triangle_normals_total += Vector3.Cross(p1 - p0, p2 - p0).normalized;
+            p1 = p2;
+        }
+        normal = triangle_normals_total.normalized;
     }
 
     private void OnDrawGizmos()
