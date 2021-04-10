@@ -13,6 +13,7 @@ public class Cell : MonoBehaviour
     public Parameters parameters;
     public List<Cell> links;
     private DebugCellInfo debugCellInfo;
+    public bool shouldDrawDebug = false;
 
     void Update()
     {
@@ -37,6 +38,7 @@ public class Cell : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (!shouldDrawDebug) { return; }
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(debugCellInfo.springTarget, 0.1f);
 
