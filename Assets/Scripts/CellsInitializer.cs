@@ -125,8 +125,8 @@ public class CellsInitializer : MonoBehaviour
         parent.links.Add(child);
         Debug.Log("child links: " + child.links.Count + " parent links: " + parent.links.Count);
         child.transform.position = child_pos /= (child.links.Count + 1);
-        child.updateNormal();
         parent.transform.position = parent_pos /= (parent.links.Count + 1);
+        child.updateNormal();
         parent.updateNormal();
     }
 }
