@@ -17,7 +17,7 @@ public class Cell : MonoBehaviour
     public Vector3 normal;
 
     private DebugCellInfo debugCellInfo;
-    public bool shouldDrawDebug = false;
+    public bool shouldDrawDebug = true;
 
     void Update()
     {
@@ -79,7 +79,7 @@ public class Cell : MonoBehaviour
         normal = triangle_normals_total.normalized;
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         if (!shouldDrawDebug) { return; }
         Gizmos.color = Color.blue;
@@ -90,9 +90,14 @@ public class Cell : MonoBehaviour
         Gizmos.DrawSphere(debugCellInfo.bulgeTarget, 0.1f);
 
         Gizmos.color = Color.white;
-        foreach (Cell other in links)
+        //foreach (Cell other in links)
+        for (int ix = 0; ix < links.Count; ix++)
         {
+            Cell other = links[ix];
             Gizmos.DrawLine(transform.position, other.transform.position);
+            GUIStyle style = new GUIStyle();
+            style.normal.textColor = Color.red;
+            UnityEditor.Handles.Label(other.transform.position, "" + ix, style);
         }
 
         Gizmos.color = Color.cyan;
