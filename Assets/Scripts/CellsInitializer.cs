@@ -52,4 +52,21 @@ public class CellsInitializer : MonoBehaviour
 
         return cells;
     }
+
+    void Update()
+    {
+        Cell[] cells = FindObjectsOfType<Cell>();
+
+        Vector3 center = Vector3.zero;
+        foreach (Cell cell in cells)
+        {
+            center += cell.transform.position;
+        }
+        center /= cells.Length;
+        foreach (Cell cell in cells)
+        {
+            cell.transform.position -= center;
+        }
+
+    }
 }
