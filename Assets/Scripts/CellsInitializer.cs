@@ -107,7 +107,16 @@ public class CellsInitializer : MonoBehaviour
         for (int ix = 0; ix < parent.links.Count; ix++)
         {
             Cell cell = parent.links[ix];
-            if (ix >= ix_from && ix <= ix_to)
+            if (ix == ix_from || ix == ix_to)
+            {
+                child_pos += cell.transform.position;
+
+                child.links.Add(cell);
+                cell.links.Add(child);
+
+                parent_pos += cell.transform.position;
+            }
+            if (ix > ix_from && ix < ix_to)
             {
                 child_pos += cell.transform.position;
 
