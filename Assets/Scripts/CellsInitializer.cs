@@ -104,6 +104,7 @@ public class CellsInitializer : MonoBehaviour
 
         Vector3 child_pos = child.transform.position;
         Vector3 parent_pos = parent.transform.position;
+        List<Cell> toRemoveFromParent = new List<Cell>();
         for (int ix = 0; ix < parent.links.Count; ix++)
         {
             Cell cell = parent.links[ix];
@@ -116,20 +117,25 @@ public class CellsInitializer : MonoBehaviour
 
                 parent_pos += cell.transform.position;
             }
-            if (ix > ix_from && ix < ix_to)
+            else if (ix > ix_from && ix < ix_to)
             {
                 child_pos += cell.transform.position;
 
                 child.links.Add(cell);
                 cell.links.Add(child);
-                parent.links.Remove(cell);
-                cell.links.Remove(parent);
+                toRemoveFromParent.Add(cell);
             }
             else
             {
                 parent_pos += cell.transform.position;
             }
         }
+        foreach(Cell cell in toRemoveFromParent)
+        {
+            parent.links.Remove(cell);
+            cell.links.Remove(parent);
+        }
+
         child.links.Add(parent);
         parent.links.Add(child);
         Debug.Log("child links: " + child.links.Count + " parent links: " + parent.links.Count);
