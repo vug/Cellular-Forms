@@ -12,5 +12,6 @@ public class Parameters : ScriptableObject
     public float bulgeFactor;
 
     [Header("Visualization")]
+    public GameObject cellPrefab;
     public Color cellColor;
 }

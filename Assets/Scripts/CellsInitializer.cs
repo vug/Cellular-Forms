@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class CellsInitializer : MonoBehaviour
 {
-    public GameObject cellPrefab;
+    public Parameters parameters;
+    public static GameObject cellPrefab;
 
     void Start()
     {
+        cellPrefab = parameters.cellPrefab;
         Cell[] cells = makeTetrahedron();
         foreach (Cell cell in cells)
         {
@@ -36,6 +38,7 @@ public class CellsInitializer : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             GameObject obj = Instantiate(this.cellPrefab);
+            GameObject obj = Instantiate(cellPrefab);
             cells[i] = obj.GetComponent<Cell>();
             cells[i].transform.position = vertices[i];
         }
