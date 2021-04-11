@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 608aa4384a354d84dbe394c4246a16e5, type: 3}
   m_Name: ParametersA
   m_EditorClassIdentifier: 
-  linkRestLength: 2.01
-  springFactor: 0.001
-  planarFactor: 0.005
-  bulgeFactor: 1
+  linkRestLength: 7.5
+  springFactor: 0.6
+  planarFactor: 0.05
+  bulgeFactor: 0.5
+  cellPrefab: {fileID: 8745555593182908486, guid: 03b2b9a0fe978294ca34e808368073fb, type: 3}
   cellColor: {r: 0, g: 0, b: 0, a: 0}
