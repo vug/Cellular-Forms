@@ -1,0 +1,50 @@
+halfedge 27 28 41 13 42 19
+halfedge 28 29 44 14 45 19
+halfedge 29 27 30 15 31 19
+halfedge 30 32 29 13 31 20
+halfedge 32 33 48 15 49 20
+halfedge 33 30 34 16 35 20
+halfedge 34 36 33 13 35 21
+halfedge 36 37 53 16 54 21
+halfedge 37 34 38 17 39 21
+halfedge 38 40 37 13 39 22
+halfedge 40 41 59 17 60 22
+halfedge 41 38 27 14 42 22
+halfedge 43 44 50 18 51 23
+halfedge 44 46 28 15 45 23
+halfedge 46 43 57 14 58 23
+halfedge 47 48 55 18 56 24
+halfedge 48 50 32 16 49 24
+halfedge 50 47 43 15 51 24
+halfedge 52 53 61 18 62 25
+halfedge 53 55 36 17 54 25
+halfedge 55 52 47 16 56 25
+halfedge 57 59 46 18 58 26
+halfedge 59 61 40 14 60 26
+halfedge 61 57 52 17 62 26
+vertex 13 34
+vertex 14 41
+vertex 15 44
+vertex 16 48
+vertex 17 53
+vertex 18 43
+edge 31 30
+edge 35 34
+edge 39 38
+edge 42 41
+edge 45 44
+edge 49 48
+edge 51 50
+edge 54 53
+edge 56 55
+edge 58 57
+edge 60 59
+edge 62 61
+face 19 29
+face 20 33
+face 21 37
+face 22 41
+face 23 46
+face 24 50
+face 25 55
+face 26 61

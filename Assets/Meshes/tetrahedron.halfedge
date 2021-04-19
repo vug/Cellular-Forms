@@ -1,0 +1,26 @@
+halfedge 21 22 31 13 32 17
+halfedge 22 23 37 14 38 17
+halfedge 23 21 24 15 25 17
+halfedge 24 26 23 13 25 18
+halfedge 26 27 35 15 36 18
+halfedge 27 24 28 16 29 18
+halfedge 28 30 27 13 29 19
+halfedge 30 31 33 16 34 19
+halfedge 31 28 21 14 32 19
+halfedge 33 35 30 14 34 20
+halfedge 35 37 26 16 36 20
+halfedge 37 33 22 15 38 20
+vertex 13 24
+vertex 14 31
+vertex 15 23
+vertex 16 27
+edge 25 24
+edge 29 28
+edge 32 31
+edge 34 33
+edge 36 35
+edge 38 37
+face 17 23
+face 18 27
+face 19 31
+face 20 37

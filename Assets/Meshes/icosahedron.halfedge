@@ -1,0 +1,122 @@
+halfedge 45 46 72 13 73 25
+halfedge 46 47 116 14 117 25
+halfedge 47 45 94 15 95 25
+halfedge 48 49 96 13 97 26
+halfedge 49 50 124 16 125 26
+halfedge 50 48 69 17 70 26
+halfedge 51 52 91 18 92 27
+halfedge 52 53 118 15 119 27
+halfedge 53 51 80 19 81 27
+halfedge 54 55 83 18 84 28
+halfedge 55 56 133 20 134 28
+halfedge 56 54 100 16 101 28
+halfedge 57 58 102 21 103 29
+halfedge 58 59 113 22 114 29
+halfedge 59 57 74 14 75 29
+halfedge 60 61 78 21 79 30
+halfedge 61 62 127 17 128 30
+halfedge 62 60 111 23 112 30
+halfedge 63 64 89 24 90 31
+halfedge 64 65 122 19 123 31
+halfedge 65 63 105 22 106 31
+halfedge 66 67 107 24 108 32
+halfedge 67 68 129 23 130 32
+halfedge 68 66 85 20 86 32
+halfedge 69 71 50 13 70 33
+halfedge 71 72 76 17 77 33
+halfedge 72 69 45 14 73 33
+halfedge 74 76 59 21 75 34
+halfedge 76 78 71 14 77 34
+halfedge 78 74 60 17 79 34
+halfedge 80 82 53 18 81 35
+halfedge 82 83 87 19 88 35
+halfedge 83 80 54 20 84 35
+halfedge 85 87 68 24 86 36
+halfedge 87 89 82 20 88 36
+halfedge 89 85 63 19 90 36
+halfedge 91 93 51 15 92 37
+halfedge 93 94 98 18 99 37
+halfedge 94 91 47 13 95 37
+halfedge 96 98 48 16 97 38
+halfedge 98 100 93 13 99 38
+halfedge 100 96 56 18 101 38
+halfedge 102 104 57 22 103 39
+halfedge 104 105 109 21 110 39
+halfedge 105 102 65 24 106 39
+halfedge 107 109 66 23 108 40
+halfedge 109 111 104 24 110 40
+halfedge 111 107 62 21 112 40
+halfedge 113 115 58 14 114 41
+halfedge 115 116 120 22 121 41
+halfedge 116 113 46 15 117 41
+halfedge 118 120 52 19 119 42
+halfedge 120 122 115 15 121 42
+halfedge 122 118 64 22 123 42
+halfedge 124 126 49 17 125 43
+halfedge 126 127 131 16 132 43
+halfedge 127 124 61 23 128 43
+halfedge 129 131 67 20 130 44
+halfedge 131 133 126 23 132 44
+halfedge 133 129 55 16 134 44
+vertex 13 94
+vertex 14 59
+vertex 15 116
+vertex 16 56
+vertex 17 50
+vertex 18 54
+vertex 19 53
+vertex 20 68
+vertex 21 60
+vertex 22 65
+vertex 23 127
+vertex 24 105
+edge 70 69
+edge 73 72
+edge 75 74
+edge 77 76
+edge 79 78
+edge 81 80
+edge 84 83
+edge 86 85
+edge 88 87
+edge 90 89
+edge 92 91
+edge 95 94
+edge 97 96
+edge 99 98
+edge 101 100
+edge 103 102
+edge 106 105
+edge 108 107
+edge 110 109
+edge 112 111
+edge 114 113
+edge 117 116
+edge 119 118
+edge 121 120
+edge 123 122
+edge 125 124
+edge 128 127
+edge 130 129
+edge 132 131
+edge 134 133
+face 25 47
+face 26 50
+face 27 53
+face 28 56
+face 29 59
+face 30 62
+face 31 65
+face 32 68
+face 33 72
+face 34 78
+face 35 83
+face 36 89
+face 37 94
+face 38 100
+face 39 105
+face 40 111
+face 41 116
+face 42 122
+face 43 127
+face 44 133
