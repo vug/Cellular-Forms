@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class HalfEdgeStudy : MonoBehaviour
@@ -60,7 +62,7 @@ public class Face
         do
         {
             Vertex v = h.vertex;
-            Debug.Log(v.position);
+            Debug.Log("v[" + v.id + "] at " + v.position);
             h = h.next;
         } while (h != this.halfEdge);
     }
@@ -76,6 +78,94 @@ public class Mesh
 
 public class MeshGenerator
 {
+    public static Mesh readHalfEdge(string path)
+    {
+        List<string> lines = new List<string>();
+        Mesh mesh = new Mesh();
+
+        try
+        {
+            using (StreamReader reader = new StreamReader(path))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    lines.Add(line);
+
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+
+        // First pass, create empty elements
+        foreach(String line in lines)
+        {
+            int id = Int32.Parse(line.Split(' ')[1]);
+            if (line.StartsWith("halfedge"))
+            {
+                mesh.halfEdges[id] = new HalfEdge { id = id };
+            }
+            else if (line.StartsWith("vertex"))
+            {
+                mesh.vertices[id] = new Vertex { id = id };
+            }
+            else if (line.StartsWith("edge"))
+            {
+                mesh.edges[id] = new Edge { id = id };
+            }
+            else if (line.StartsWith("face"))
+            {
+                mesh.faces[id] = new Face { id = id };
+            }
+        }
+
+        // Second pass, set connections
+        foreach (String line in lines)
+        {
+            string[] split = line.Split(' ');
+
+            int id = Int32.Parse(split[1]);
+
+            if (line.StartsWith("halfedge"))
+            {
+                int nextHalfEdgeId = Int32.Parse(split[2]);
+                int twinHalfEdgeId = Int32.Parse(split[3]);
+                int vertexId = Int32.Parse(split[4]);
+                int edgeId = Int32.Parse(split[5]);
+                int faceId = Int32.Parse(split[6]);
+
+                mesh.halfEdges[id].next = mesh.halfEdges[nextHalfEdgeId];
+                mesh.halfEdges[id].twin = mesh.halfEdges[twinHalfEdgeId];
+                mesh.halfEdges[id].vertex = mesh.vertices[vertexId];
+                mesh.halfEdges[id].edge = mesh.edges[edgeId];
+                mesh.halfEdges[id].face = mesh.faces[faceId];
+            }
+            else if (line.StartsWith("vertex"))
+            {
+                int halfEdgeId = Int32.Parse(split[2]);
+                mesh.vertices[id].halfEdge = mesh.halfEdges[halfEdgeId];
+                // TODO: position comes here
+                mesh.vertices[id].position = Vector3.zero;
+            }
+            else if (line.StartsWith("edge"))
+            {
+                int halfEdgeId = Int32.Parse(split[2]);
+                mesh.edges[id].halfEdge = mesh.halfEdges[halfEdgeId];
+
+            }
+            else if (line.StartsWith("face"))
+            {
+                int halfEdgeId = Int32.Parse(split[2]);
+                mesh.faces[id].halfEdge = mesh.halfEdges[halfEdgeId];
+            }
+        }
+
+        return mesh;
+    }
+
     public static HalfEdge makeTriangle()
     {
         Face f1 = new Face();
