@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class HalfEdgeStudy : MonoBehaviour
+{
+    void Start()
+    {
+        Debug.Log("HalfEdgeStudy. Traversing...");
+        HalfEdge h = MeshGenerator.makeTriangle();
+        Face f = h.face;
+        f.traverseVertices();
+    }
+}
+
 public class HalfEdge
 {
     public HalfEdge next;
