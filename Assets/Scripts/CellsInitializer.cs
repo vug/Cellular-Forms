@@ -12,11 +12,40 @@ public class CellsInitializer : MonoBehaviour
     {
         cellPrefab = parameters.cellPrefab;
         rnd = new System.Random();
-        Cell[] cells = makeTetrahedron();
-        foreach (Cell cell in cells)
+        // tetrahedron, octahedron, icosahedron, pentakis_decodahedron
+        Dictionary<int, Cell> cells = makeFromFile("Assets/Meshes/icosahedron.halfedge");
+        foreach (Cell cell in cells.Values)
         {
             cell.updateNormal();
         }
+    }
+
+    public Dictionary<int, Cell> makeFromFile(string path)
+    {
+        Mesh m = MeshGenerator.readHalfEdge(path);
+        Dictionary<int, Cell> cells = new Dictionary<int, Cell>();
+
+        foreach (var entry in m.vertices)
+        {
+            GameObject obj = Instantiate(cellPrefab);
+            Cell c = obj.GetComponent<Cell>();
+            c.transform.position = entry.Value.position;
+            cells[entry.Key] = c;
+        }
+        foreach (var entry in m.vertices)
+        {
+            int id = entry.Key;
+            Vertex v = entry.Value;
+            HalfEdge h = v.halfEdge;
+            do
+            {
+                HalfEdge ht = h.twin;
+                Vertex w = ht.vertex;
+                cells[id].links.Add(cells[w.id]);
+                h = ht.next;
+            } while (h != v.halfEdge);
+        }
+        return cells;
     }
 
     public Cell[] makeTetrahedron()
