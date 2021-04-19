@@ -10,10 +10,10 @@ halfedge 31 28 21 14 32 19
 halfedge 33 35 30 14 34 20
 halfedge 35 37 26 16 36 20
 halfedge 37 33 22 15 38 20
-vertex 13 24
-vertex 14 31
-vertex 15 23
-vertex 16 27
+vertex 13 24 0 0 1
+vertex 14 31 0.942809 0 -0.333333
+vertex 15 23 -0.471404 0.816497 -0.333333
+vertex 16 27 -0.471404 -0.816497 -0.333333
 edge 25 24
 edge 29 28
 edge 32 31

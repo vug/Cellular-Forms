@@ -22,12 +22,12 @@ halfedge 55 52 47 16 56 25
 halfedge 57 59 46 18 58 26
 halfedge 59 61 40 14 60 26
 halfedge 61 57 52 17 62 26
-vertex 13 34
-vertex 14 41
-vertex 15 44
-vertex 16 48
-vertex 17 53
-vertex 18 43
+vertex 13 34 0 0 1
+vertex 14 41 1 0 0
+vertex 15 44 0 1 0
+vertex 16 48 -1 0 0
+vertex 17 53 0 -1 0
+vertex 18 43 0 0 -1
 edge 31 30
 edge 35 34
 edge 39 38
