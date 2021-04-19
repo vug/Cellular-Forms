@@ -16,6 +16,18 @@ public class Vertex
     public HalfEdge halfEdge;
     public Vector3 position;
 
+    // Only works if not on boundary
+    public void traverseNeighbors()
+    {
+        HalfEdge h = this.halfEdge;
+        do
+        {
+            h = h.twin;
+            Vertex v = h.vertex;
+            Debug.Log(v.position);
+            h = h.next;
+        } while (h != null || h != this.halfEdge);
+    }
 }
 
 public class Edge
@@ -26,6 +38,18 @@ public class Edge
 public class Face
 {
     public HalfEdge halfEdge;
+
+    public void traverseVertices()
+    {
+        HalfEdge h = this.halfEdge;
+        do
+        {
+            Vertex v = h.vertex;
+            Debug.Log(v.position);
+            h = h.next;
+        } while (h != this.halfEdge);
+    }
+}
 
 public class MeshGenerator
 {
