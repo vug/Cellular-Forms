@@ -15,6 +15,7 @@ public class HalfEdgeStudy : MonoBehaviour
 
 public class HalfEdge
 {
+    public int id = -1;
     public HalfEdge next;
     public HalfEdge twin;
     public Vertex vertex;
@@ -24,6 +25,7 @@ public class HalfEdge
 
 public class Vertex
 {
+    public int id = -1;
     public HalfEdge halfEdge;
     public Vector3 position;
 
@@ -43,11 +45,13 @@ public class Vertex
 
 public class Edge
 {
+    public int id = -1;
     public HalfEdge halfEdge;
 }
 
 public class Face
 {
+    public int id = -1;
     public HalfEdge halfEdge;
 
     public void traverseVertices()
@@ -60,6 +64,14 @@ public class Face
             h = h.next;
         } while (h != this.halfEdge);
     }
+}
+
+public class Mesh
+{
+    public Dictionary<int, HalfEdge> halfEdges = new Dictionary<int, HalfEdge>();
+    public Dictionary<int, Vertex> vertices = new Dictionary<int, Vertex>();
+    public Dictionary<int, Edge> edges = new Dictionary<int, Edge>();
+    public Dictionary<int, Face> faces = new Dictionary<int, Face>();
 }
 
 public class MeshGenerator
