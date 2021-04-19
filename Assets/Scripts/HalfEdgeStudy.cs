@@ -151,9 +151,11 @@ public class MeshGenerator
             else if (line.StartsWith("vertex"))
             {
                 int halfEdgeId = Int32.Parse(split[2]);
+                float x = (float)Double.Parse(split[3]);
+                float y = (float)Double.Parse(split[4]);
+                float z = (float)Double.Parse(split[5]);
                 mesh.vertices[id].halfEdge = mesh.halfEdges[halfEdgeId];
-                // TODO: position comes here
-                mesh.vertices[id].position = Vector3.zero;
+                mesh.vertices[id].position = new Vector3(x, y, z);
             }
             else if (line.StartsWith("edge"))
             {
