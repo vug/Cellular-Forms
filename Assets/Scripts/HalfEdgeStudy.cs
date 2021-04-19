@@ -8,10 +8,15 @@ public class HalfEdgeStudy : MonoBehaviour
 {
     void Start()
     {
-        Debug.Log("HalfEdgeStudy. Traversing...");
-        HalfEdge h = MeshGenerator.makeTriangle();
-        Face f = h.face;
-        f.traverseVertices();
+        Debug.Log("HalfEdgeStudy...");
+        Mesh mesh  = MeshGenerator.readHalfEdge("Assets/Meshes/tetrahedron.halfedge");
+        Debug.Log("" + mesh.halfEdges.Count + " " + mesh.vertices.Count + " " + mesh.edges.Count + " " + mesh.faces.Count);
+
+        foreach(KeyValuePair<int, Face> entry in mesh.faces)
+        {
+            Debug.Log("traversing vertices of f[" + entry.Key + "]");
+            entry.Value.traverseVertices();
+        }
     }
 }
 
