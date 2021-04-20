@@ -1,6 +1,12 @@
 # Cellular Forms
 
-A reproduction of [Andy Lomas](https://andylomas.com/)'s "Cellular Forms" work in Unity as explained in this [paper]().
+A reproduction of [Andy Lomas](https://andylomas.com/)'s "Cellular Forms" work in Unity as explained in this [paper](https://andylomas.com/extra/andylomas_paper_cellular_forms_aisb50.pdf).
+
+## v0.7 Creating a Unity Mesh from Half Edge Structure and Visualizing via Flat Shading Material
+
+Unity comes with a Mesh class that works with an array of vertices and an array of triangle corner indices. This version converts half edge to unity mesh. And also visualizes it with a flat shading material that required installation of Universal Rendering Pipeline (URL) and Shader Graph packages. 
+
+![Cellular Forms - 03 - HalfEdge - PC, Mac  Linux Standalone - Unity 2020 3 3f1 Personal_ _DX11_ 2021-04-20 02-10-07_Trim](https://user-images.githubusercontent.com/6636020/115346136-c7342780-a17d-11eb-9f0c-fa689f0c2a81.gif)
 
 ## v0.6 Half Edge Data Structure and reading it from a file
 
