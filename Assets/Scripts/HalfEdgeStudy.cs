@@ -9,7 +9,7 @@ public class HalfEdgeStudy : MonoBehaviour
     void Start()
     {
         Debug.Log("HalfEdgeStudy...");
-        Mesh mesh  = MeshGenerator.readHalfEdge("Assets/Meshes/tetrahedron.halfedge");
+        MyMesh mesh  = MeshGenerator.readHalfEdge("Assets/Meshes/tetrahedron.halfedge");
         Debug.Log("" + mesh.halfEdges.Count + " " + mesh.vertices.Count + " " + mesh.edges.Count + " " + mesh.faces.Count);
 
         foreach(KeyValuePair<int, Face> entry in mesh.faces)
@@ -73,7 +73,7 @@ public class Face
     }
 }
 
-public class Mesh
+public class MyMesh
 {
     public Dictionary<int, HalfEdge> halfEdges = new Dictionary<int, HalfEdge>();
     public Dictionary<int, Vertex> vertices = new Dictionary<int, Vertex>();
@@ -83,10 +83,10 @@ public class Mesh
 
 public class MeshGenerator
 {
-    public static Mesh readHalfEdge(string path)
+    public static MyMesh readHalfEdge(string path)
     {
         List<string> lines = new List<string>();
-        Mesh mesh = new Mesh();
+        MyMesh mesh = new MyMesh();
 
         try
         {

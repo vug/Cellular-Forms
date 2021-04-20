@@ -22,7 +22,7 @@ public class CellsInitializer : MonoBehaviour
 
     public Dictionary<int, Cell> makeFromFile(string path)
     {
-        Mesh m = MeshGenerator.readHalfEdge(path);
+        MyMesh m = MeshGenerator.readHalfEdge(path);
         Dictionary<int, Cell> cells = new Dictionary<int, Cell>();
 
         foreach (var entry in m.vertices)
