@@ -1,6 +1,17 @@
 # Cellular Forms
 
-A reproduction of [Andy Lomas](https://andylomas.com/)'s "Cellular Forms" work in Unity.
+A reproduction of [Andy Lomas](https://andylomas.com/)'s "Cellular Forms" work in Unity as explained in this [paper]().
+
+## v0.6 Half Edge Data Structure and reading it from a file
+
+In order to implement vertex split properly (something I failed spectacularly at v0.5) I need to learn how to do "Vertex Split" properly. Looks vertex split is the computer graphics technical term for the "cell division" algorithm described in Andy Lomas' paper. And I learned that a good data structure to implement local mesh operations on triangular meshes (or polygonal meshes in general) is the half edge data structure.
+
+I implemented one in CSharp. I deviced a methodology to create a mesh in Blender (platonic solids are good for this project) import it to `dae` format. Load it in my Scotty3D in which I've implemented vertex split (and edge collapse and edge flip) and serialize the half edge in a custom text-based format. Then load it in this Unity project.
+
+Below is the result of loading a icosahedron generated in Blender, serialized in Scotty3D, loaded in Unity. From each mesh vertex a Cell (sphere) is generated. And Cells are linked according to vertex edge connections. ^_^
+
+![Cellular Forms - 03 - HalfEdge - PC, Mac  Linux Standalone - Unity 2020 3 3f1 Personal_ _DX11_ 2021-04-19 20-48-24_Trim](https://user-images.githubusercontent.com/6636020/115321029-fb452380-a150-11eb-943a-b795e868a07a.gif)
+
 
 ## v0.5 Bulge "Force" and Random Cell Division
 
@@ -15,7 +26,3 @@ Spring "force" was pushing or pulling linked cells to spring's rest length. Plan
 Playing with the weight of each force moves cells to different equilibrium points.
 
 ![Cellular Forms - 02 - Tetrahedron - PC, Mac  Linux Standalone - Unity 2020 3 3f1 Personal _DX11_ 2021-04-10 16-34-31_Trim](https://user-images.githubusercontent.com/6636020/114284648-452a5d00-9a1f-11eb-927f-56ac918cef3a.gif)
-
-## v0.3: Debug Visualizations
-
-![Cellular Forms - 02 - Tetrahedron - PC, Mac  Linux Standalone - Unity 2020 3 3f1 Personal _DX11_ 2021-04-10 12-08-20_Trim](https://user-images.githubusercontent.com/6636020/114276739-fe743d00-99f5-11eb-9242-037c0428ef0a.gif)
