@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +13,21 @@ public class MeshGenerationStudy : MonoBehaviour
 
     void Start()
     {
-        mesh = new Mesh();
-        GetComponent<MeshFilter>().mesh = mesh;
+        HalfEdgeMesh heMesh = HalfEdgeMeshGenerator.readHalfEdge("Assets/Meshes/icosahedron.halfedge");
+        Debug.Log("HalfEdgeMesh: " + heMesh.halfEdges.Count + " " + heMesh.vertices.Count + " " + heMesh.edges.Count + " " + heMesh.faces.Count);
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        meshFilter.mesh = heMesh.convertToMesh();
+        Debug.Log("UnityMesh: " + meshFilter.mesh.vertices.Length + " " + meshFilter.mesh.triangles.Length);
+        foreach(Vector3 v in meshFilter.mesh.vertices)
+        {
+            Debug.Log("vertex: " + v);
+        }
+        Debug.Log("triangles: " + String.Join(",", meshFilter.mesh.triangles));
 
-        CreateShape();
-        UpdateMesh();
+        //mesh = new Mesh();
+        //GetComponent<MeshFilter>().mesh = mesh;
+        //CreateShape();
+        //UpdateMesh();
     }
 
     void CreateShape()
