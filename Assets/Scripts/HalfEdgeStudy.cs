@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -73,20 +72,60 @@ public class Face
     }
 }
 
-public class MyMesh
+public class HalfEdgeMesh
 {
     public Dictionary<int, HalfEdge> halfEdges = new Dictionary<int, HalfEdge>();
     public Dictionary<int, Vertex> vertices = new Dictionary<int, Vertex>();
     public Dictionary<int, Edge> edges = new Dictionary<int, Edge>();
     public Dictionary<int, Face> faces = new Dictionary<int, Face>();
+    public Mesh convertToMesh()
+    {
+        Mesh mesh = new Mesh();
+        Vector3[] mesh_vertices = new Vector3[vertices.Count];
+        int[] mesh_triangles = new int[faces.Count * 3];
+
+        // create Mesh
+        Dictionary<int, int> idMap = new Dictionary<int, int>();
+        int newId = 0;
+        foreach (KeyValuePair<int, Vertex> entry in vertices)
+        {
+            int halfEdgeId = entry.Key;
+            idMap[halfEdgeId] = newId;
+            mesh_vertices[newId] = entry.Value.position;
+            newId++;
+        }
+        int faceIx = 0;
+        foreach(Face f in faces.Values)
+        {
+            HalfEdge h = f.halfEdge;
+            int vertIx = 0;
+            do
+            {
+                Vertex v = h.vertex;
+                newId = idMap[v.id];
+                mesh_triangles[faceIx * 3 + vertIx] = newId;
+                h = h.next;
+                vertIx++;
+            } while (h != f.halfEdge);
+            faceIx++;
+        }
+
+        // update Mesh
+        mesh.Clear();
+        mesh.vertices = mesh_vertices;
+        mesh.triangles = mesh_triangles;
+        //mesh.RecalculateNormals();
+
+        return mesh;
+    }
 }
 
-public class MeshGenerator
+public class HalfEdgeMeshGenerator
 {
-    public static MyMesh readHalfEdge(string path)
+    public static HalfEdgeMesh readHalfEdge(string path)
     {
         List<string> lines = new List<string>();
-        MyMesh mesh = new MyMesh();
+        HalfEdgeMesh mesh = new HalfEdgeMesh();
 
         try
         {
