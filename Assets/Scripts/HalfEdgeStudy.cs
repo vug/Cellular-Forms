@@ -98,7 +98,9 @@ public class HalfEdgeMesh
         mesh.Clear();
         mesh.vertices = mesh_vertices;
         mesh.triangles = mesh_triangles;
-        //mesh.RecalculateNormals();
+        mesh.RecalculateNormals();
+        mesh.RecalculateTangents();
+        mesh.RecalculateBounds();
 
         return mesh;
     }
