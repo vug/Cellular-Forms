@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CellsInitializer : MonoBehaviour
@@ -8,23 +9,21 @@ public class CellsInitializer : MonoBehaviour
     public static GameObject cellPrefab;
     private System.Random rnd;
     private Dictionary<int, Cell> cells;
-    private HalfEdgeMesh heMesh;
 
     void Start()
     {
         cellPrefab = parameters.cellPrefab;
         rnd = new System.Random();
         // tetrahedron, octahedron, icosahedron, pentakis_decodahedron
-        cells = makeFromFile("Assets/Meshes/icosahedron.halfedge");
+        cells = makeFromHalfEdgeMesh(MeshGenerationStudy.heMesh);
         foreach (Cell cell in cells.Values)
         {
             cell.updateNormal();
         }
     }
 
-    public Dictionary<int, Cell> makeFromFile(string path)
+    public Dictionary<int, Cell> makeFromHalfEdgeMesh(HalfEdgeMesh heMesh)
     {
-        heMesh = HalfEdgeMeshGenerator.readHalfEdge(path);
         Dictionary<int, Cell> cells = new Dictionary<int, Cell>();
 
         foreach (var entry in heMesh.vertices)
@@ -87,8 +86,6 @@ public class CellsInitializer : MonoBehaviour
 
     void Update()
     {
-        //Cell[] cells = FindObjectsOfType<Cell>();
-
         if (Input.GetKeyDown("s"))
         {
             var indices = new List<int>(cells.Keys);
@@ -105,6 +102,14 @@ public class CellsInitializer : MonoBehaviour
         foreach (Cell cell in cells.Values)
         {
             cell.transform.position -= center;
+        }
+
+        // Update triangular mesh vertex positions with Cell positions
+        foreach (KeyValuePair<int, Cell> entry in cells)
+        {
+            int vix = entry.Key;
+            Cell cell = entry.Value;
+            MeshGenerationStudy.heMesh.vertices[vix].position = cell.transform.position;
         }
 
     }

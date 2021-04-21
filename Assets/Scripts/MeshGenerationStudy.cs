@@ -1,20 +1,36 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 public class MeshGenerationStudy : MonoBehaviour
 {
+    public static HalfEdgeMesh heMesh;
+    public static MeshFilter meshFilter;
+
     void Start()
     {
-        HalfEdgeMesh heMesh = HalfEdgeMeshGenerator.readHalfEdge("Assets/Meshes/icosahedron.halfedge");
+        heMesh = HalfEdgeMeshGenerator.readHalfEdge("Assets/Meshes/icosahedron.halfedge");
         Debug.Log("HalfEdgeMesh: " + heMesh.halfEdges.Count + " " + heMesh.vertices.Count + " " + heMesh.edges.Count + " " + heMesh.faces.Count);
         MeshFilter meshFilter = GetComponent<MeshFilter>();
         meshFilter.mesh = heMesh.convertToMesh();
-        Debug.Log("UnityMesh: " + meshFilter.mesh.vertices.Length + " " + meshFilter.mesh.triangles.Length);
-        foreach(Vector3 v in meshFilter.mesh.vertices)
+    }
+
+    void Update()
+    {
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        // TODO: when called from Update below heMesh.convertToMesh() generates inside-out faces.
+        //meshFilter.mesh = heMesh.convertToMesh();
+        //Array.Reverse(meshFilter.mesh.triangles, 0, meshFilter.mesh.triangles.Length);
+        Vector3[] vertices = meshFilter.mesh.vertices;
+        
+        // Update existing mesh vertices instead of creating a new Mesh from scratch.
+        int newId = 0;
+        foreach (Vertex v in heMesh.vertices.Values)
         {
-            Debug.Log("vertex: " + v);
+            vertices[newId] = v.position;
+            newId++;
         }
-        Debug.Log("triangles: " + String.Join(",", meshFilter.mesh.triangles));
+        meshFilter.mesh.vertices = vertices;
     }
 }
