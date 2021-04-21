@@ -7,13 +7,15 @@ public class CellsInitializer : MonoBehaviour
     public Parameters parameters;
     public static GameObject cellPrefab;
     private System.Random rnd;
+    private Dictionary<int, Cell> cells;
+    private HalfEdgeMesh heMesh;
 
     void Start()
     {
         cellPrefab = parameters.cellPrefab;
         rnd = new System.Random();
         // tetrahedron, octahedron, icosahedron, pentakis_decodahedron
-        Dictionary<int, Cell> cells = makeFromFile("Assets/Meshes/icosahedron.halfedge");
+        cells = makeFromFile("Assets/Meshes/icosahedron.halfedge");
         foreach (Cell cell in cells.Values)
         {
             cell.updateNormal();
@@ -22,17 +24,17 @@ public class CellsInitializer : MonoBehaviour
 
     public Dictionary<int, Cell> makeFromFile(string path)
     {
-        HalfEdgeMesh m = HalfEdgeMeshGenerator.readHalfEdge(path);
+        heMesh = HalfEdgeMeshGenerator.readHalfEdge(path);
         Dictionary<int, Cell> cells = new Dictionary<int, Cell>();
 
-        foreach (var entry in m.vertices)
+        foreach (var entry in heMesh.vertices)
         {
             GameObject obj = Instantiate(cellPrefab);
             Cell c = obj.GetComponent<Cell>();
             c.transform.position = entry.Value.position;
             cells[entry.Key] = c;
         }
-        foreach (var entry in m.vertices)
+        foreach (var entry in heMesh.vertices)
         {
             int id = entry.Key;
             Vertex v = entry.Value;
@@ -85,21 +87,22 @@ public class CellsInitializer : MonoBehaviour
 
     void Update()
     {
-        Cell[] cells = FindObjectsOfType<Cell>();
+        //Cell[] cells = FindObjectsOfType<Cell>();
 
         if (Input.GetKeyDown("s"))
         {
-            int ix = rnd.Next(cells.Length);
-            splitCell(cells[ix]);
+            var indices = new List<int>(cells.Keys);
+            splitCell(cells[indices[rnd.Next(cells.Count)]]);
         }
 
+        // Keep cells at the center
         Vector3 center = Vector3.zero;
-        foreach (Cell cell in cells)
+        foreach (Cell cell in cells.Values)
         {
             center += cell.transform.position;
         }
-        center /= cells.Length;
-        foreach (Cell cell in cells)
+        center /= cells.Count;
+        foreach (Cell cell in cells.Values)
         {
             cell.transform.position -= center;
         }
