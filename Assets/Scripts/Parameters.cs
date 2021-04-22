@@ -14,4 +14,5 @@ public class Parameters : ScriptableObject
     [Header("Visualization")]
     public GameObject cellPrefab;
     public Color cellColor;
+    public float cellRadius;
 }

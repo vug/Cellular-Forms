@@ -12,7 +12,6 @@ struct DebugCellInfo
 public class Cell : MonoBehaviour
 {
     public Parameters parameters;
-
     public List<Cell> links;
     public Vector3 normal;
 
@@ -21,6 +20,7 @@ public class Cell : MonoBehaviour
 
     void Update()
     {
+        this.transform.localScale = parameters.cellRadius * Vector3.one;
         //debugCellInfo.springTarget = springTarget;
         //debugCellInfo.planarTarget = planarTarget;
         //debugCellInfo.bulgeTarget = bulgeTarget;
