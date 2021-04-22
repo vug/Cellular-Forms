@@ -79,6 +79,45 @@ public class HalfEdgeMesh
     public Dictionary<int, Vertex> vertices = new Dictionary<int, Vertex>();
     public Dictionary<int, Edge> edges = new Dictionary<int, Edge>();
     public Dictionary<int, Face> faces = new Dictionary<int, Face>();
+    private int maxId = 1000;
+
+    public HalfEdge newHalfEdge()
+    {
+        HalfEdge h = new HalfEdge();
+        h.id = maxId;
+        halfEdges[maxId] = h;
+        maxId++;
+        return h;
+    }
+
+
+    public Vertex newVertex()
+    {
+        Vertex v = new Vertex();
+        v.id = maxId;
+        vertices[maxId] = v;
+        maxId++;
+        return v;
+    }
+
+    public Edge newEdge()
+    {
+        Edge e = new Edge();
+        e.id = maxId;
+        edges[maxId] = e;
+        maxId++;
+        return e;
+    }
+    public Face newFace()
+    {
+        Face f = new Face();
+        f.id = maxId;
+        faces[maxId] = f;
+        maxId++;
+        return f;
+    }
+
+
     public Mesh convertToMesh()
     {
         Mesh mesh = new Mesh();
