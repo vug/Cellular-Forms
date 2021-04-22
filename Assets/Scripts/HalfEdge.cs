@@ -117,6 +117,204 @@ public class HalfEdgeMesh
         return f;
     }
 
+    public Edge VertexSplit(Vertex v0, HalfEdge h1, HalfEdge h2, bool isThree = false)
+    {
+        Debug.Log("splitting vertex[" + v0.id + "] between halfedge[" + h1.id + "] and [" + h2.id + "]");
+        // Phase I: label existing elements
+        HalfEdge h3 = h1.twin;
+        HalfEdge h4 = h2.twin;
+
+        Vertex v1 = h3.vertex;
+        Vertex v2 = h4.vertex;
+
+        Edge e1 = h1.edge;
+        Edge e2 = h2.edge;
+
+        // Phase II: 2 new vertices, 5 new edges, 10 new half-edges, 2 new faces
+        Vertex v3 = newVertex();
+        Vertex v4 = newVertex();
+
+        Edge e3 = newEdge();
+        Edge e4 = newEdge();
+        Edge e5 = newEdge();
+        Edge e6 = newEdge();
+        Edge e7 = newEdge();
+
+        HalfEdge h5 = newHalfEdge();
+        HalfEdge h6 = newHalfEdge();
+        HalfEdge h7 = newHalfEdge();
+        HalfEdge h8 = newHalfEdge();
+        HalfEdge h9 = newHalfEdge();
+        HalfEdge h10 = newHalfEdge();
+        HalfEdge h11 = newHalfEdge();
+        HalfEdge h12 = newHalfEdge();
+        HalfEdge h13 = newHalfEdge();
+        HalfEdge h14 = newHalfEdge();
+
+        Face f0 = newFace();
+        Face f1 = newFace();
+
+        // Phase III: Make connections
+        h5.next = h6;
+        h5.twin = h8;
+        h5.vertex = v3;
+        h5.edge = e3;
+        h5.face = f0;
+
+        h6.next = h7;
+        h6.twin = h11;
+        h6.vertex = v4;
+        h6.edge = e4;
+        h6.face = f0;
+
+        h7.next = h5;
+        h7.twin = h12;
+        h7.vertex = v1;
+        h7.edge = e5;
+        h7.face = f0;
+
+        h8.next = h9;
+        h8.twin = h5;
+        h8.vertex = v4;
+        h8.edge = e3;
+        h8.face = f1;
+
+        h9.next = h10;
+        h9.twin = h13;
+        h9.vertex = v3;
+        h9.edge = e6;
+        h9.face = f1;
+
+        h10.next = h8;
+        h10.twin = h14;
+        h10.vertex = v2;
+        h10.edge = e7;
+        h10.face = f1;
+
+        if (isThree)
+        {
+            h11.next = h14;
+            h11.twin = h6;
+            h11.vertex = v1;
+            h11.edge = e4;
+            h11.face = h3.face;
+
+        }
+        else
+        {
+            h11.next = h3.next;
+            h11.twin = h6;
+            h11.vertex = v1;
+            h11.edge = e4;
+            h11.face = h3.face;
+        }
+
+        h12.next = h1.next;
+        h12.twin = h7;
+        h12.vertex = v3;
+        h12.edge = e5;
+        h12.face = h1.face;
+
+        h13.next = h4.next;
+        h13.twin = h9;
+        h13.vertex = v2;
+        h13.edge = e6;
+        h13.face = h4.face;
+
+        h14.next = h2.next;
+        h14.twin = h10;
+        h14.vertex = v4;
+        h14.edge = e7;
+        h14.face = h2.face;
+
+        v1.halfEdge = h7;
+        v2.halfEdge = h10;
+        v3.halfEdge = h5;
+        v3.position = v0.position;
+        v4.halfEdge = h8;
+        v4.position = v0.position;
+
+        e3.halfEdge = h5;
+        e4.halfEdge = h6;
+        e5.halfEdge = h7;
+        e6.halfEdge = h9;
+        e7.halfEdge = h10;
+
+        f0.halfEdge = h5;
+        f1.halfEdge = h8;
+
+
+        // Loops
+        HalfEdge h;
+        int cnt;
+        h = h4;
+        cnt = 1;
+        int num_loops = 0;
+        do
+        {
+            Debug.Log("he[" + h.id + "]" + " next: [" + h.next.id + "], twin: [" + h.twin.id + "]");
+            h = h.next; // outgoing edge from v0
+            h.vertex = v3;
+            h = h.twin; // ingoing edge to v0
+            if (h.vertex != v1 && h.vertex != v2)
+            {
+                v3.position += h.vertex.position;
+                cnt += 1;
+            }
+            num_loops++;
+            //} while(h != h3);
+            //} while(h != h3 || h.vertex() != v1);
+        } while (h.next.twin != h3 && num_loops < 10);
+        //v3.pos += v1.pos + v2.pos;
+        v3.position /= (float)cnt;
+        Debug.Log("num_loops: " + num_loops);
+
+        if (!isThree)
+        {
+            h = h3;
+            cnt = 1;
+            num_loops = 0;
+            do
+            {
+                h = h.next; // outgoing edge from v0
+                h.vertex = v4;
+                h = h.twin;
+                if (h.vertex != v1 && h.vertex != v2)
+                {
+                    v4.position += h.vertex.position;
+                    cnt += 1;
+                }
+                num_loops++;
+                //} while(h != h4 || h.vertex() != v2);
+            } while (h.next.twin != h4 && num_loops < 10);
+            // v4.pos += v1.pos + v2.pos;
+            v4.position /= (float)cnt;
+            Debug.Log("num_loops: " + num_loops);
+        }
+
+        h1.next.next.next = h12;
+        h1.face.halfEdge = h12;
+        h2.next.next.next = h14;
+        h2.face.halfEdge = h14;
+        h3.next.next.next = h11;
+        h3.face.halfEdge = h11;
+        h4.next.next.next = h13;
+        h4.face.halfEdge = h13;
+
+        // Phase 4: delete unused, unreferred elements
+        edges.Remove(e1.id);
+        edges.Remove(e2.id);
+
+        vertices.Remove(v0.id);
+
+        halfEdges.Remove(h1.id);
+        halfEdges.Remove(h2.id);
+        halfEdges.Remove(h3.id);
+        halfEdges.Remove(h4.id);
+
+        return e3;
+    }
+
 
     public Mesh convertToMesh()
     {
