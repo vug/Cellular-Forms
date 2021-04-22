@@ -6,7 +6,7 @@ public class CellVisualizer : MonoBehaviour
 {
     public Parameters parameters;
     public static GameObject cellPrefab;
-    private Dictionary<int, Cell> cells;
+    private Dictionary<int, GameObject> cellObjs;
     private HalfEdgeMesh heMesh;
 
 
@@ -14,25 +14,34 @@ public class CellVisualizer : MonoBehaviour
     {
         this.heMesh = Main.heMesh;
         cellPrefab = parameters.cellPrefab;
-        
-
-        cells = new Dictionary<int, Cell>();
+        cellObjs = new Dictionary<int, GameObject>();
     }
 
     void Update()
     {
+        var keys = new List<int>(cellObjs.Keys);
+        foreach (var ix in keys)
+        {
+            if(!heMesh.vertices.ContainsKey(ix))
+            {
+                var obj = cellObjs[ix];
+                cellObjs.Remove(ix);
+                Destroy(obj);
+            }
+        }
+
         foreach (var entry in heMesh.vertices)
         {
-            if (!cells.ContainsKey(entry.Key))
+            if (!cellObjs.ContainsKey(entry.Key))
             {
-                GameObject obj = Instantiate(cellPrefab);
-                cells[entry.Key] = obj.GetComponent<Cell>();
+                cellObjs[entry.Key] = Instantiate(cellPrefab);
             }
         }
 
         foreach (int ix in heMesh.vertices.Keys)
         {
-            cells[ix].transform.position = heMesh.vertices[ix].position;
+            Cell cell = cellObjs[ix].GetComponent<Cell>();
+            cell.transform.position = heMesh.vertices[ix].position;
         }
     }
 
