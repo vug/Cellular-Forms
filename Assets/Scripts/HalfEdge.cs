@@ -33,6 +33,21 @@ public class Vertex
         } while (h != null && h != this.halfEdge && num_steps < 1000);
         return neighbors;
     }
+
+    public List<HalfEdge> GetHalfEdges()
+    {
+        List<HalfEdge> halfEdges = new List<HalfEdge>();
+        HalfEdge h = this.halfEdge;
+        int num_steps = 0;
+        do
+        {
+            halfEdges.Add(h);
+            HalfEdge ht = h.twin;
+            h = ht.next;
+            num_steps++;
+        } while (h != null && h != this.halfEdge && num_steps < 1000);
+        return halfEdges;
+    }
 }
 
 public class Edge
