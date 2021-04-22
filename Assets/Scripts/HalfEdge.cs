@@ -104,11 +104,8 @@ public class HalfEdgeMesh
 
         return mesh;
     }
-}
 
-public class HalfEdgeMeshGenerator
-{
-    public static HalfEdgeMesh readHalfEdge(string path)
+    public static HalfEdgeMesh makeFromFile(string path)
     {
         List<string> lines = new List<string>();
         HalfEdgeMesh mesh = new HalfEdgeMesh();
@@ -131,7 +128,7 @@ public class HalfEdgeMeshGenerator
         }
 
         // First pass, create empty elements
-        foreach(String line in lines)
+        foreach (String line in lines)
         {
             int id = Int32.Parse(line.Split(' ')[1]);
             if (line.StartsWith("halfedge"))
@@ -198,6 +195,7 @@ public class HalfEdgeMeshGenerator
         return mesh;
     }
 
+    // Just an example of how to create a HalfEdgeMesh with actual content
     public static HalfEdge makeTriangle()
     {
         Face f1 = new Face();
@@ -208,7 +206,7 @@ public class HalfEdgeMeshGenerator
 
         Vertex v1 = new Vertex();
         Vertex v2 = new Vertex();
-        Vertex v3 =  new Vertex();
+        Vertex v3 = new Vertex();
         v1.position = new Vector3(0.0f, 0.0f, 0.0f);
         v2.position = new Vector3(1.0f, 0.0f, 0.0f);
         v3.position = new Vector3(0.5f, 1.0f, 0.0f);

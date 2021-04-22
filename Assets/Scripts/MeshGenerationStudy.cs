@@ -10,7 +10,7 @@ public class MeshGenerationStudy : MonoBehaviour
 
     void Start()
     {
-        heMesh = HalfEdgeMeshGenerator.readHalfEdge("Assets/Meshes/icosahedron.halfedge");
+        heMesh = HalfEdgeMesh.makeFromFile("Assets/Meshes/icosahedron.halfedge");
         Debug.Log("HalfEdgeMesh: " + heMesh.halfEdges.Count + " " + heMesh.vertices.Count + " " + heMesh.edges.Count + " " + heMesh.faces.Count);
         MeshFilter meshFilter = GetComponent<MeshFilter>();
         meshFilter.mesh = heMesh.convertToMesh();
