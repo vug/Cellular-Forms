@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Main : MonoBehaviour
 {
+    private System.Random rnd;
     public Parameters parameters;
     public static HalfEdgeMesh heMesh;
 
     void Awake()
     {
+        rnd = new System.Random();
+        //heMesh = HalfEdgeMesh.makeFromFile("Assets/Meshes/tetrahedron.halfedge");
         heMesh = HalfEdgeMesh.makeFromFile("Assets/Meshes/icosahedron.halfedge");
+        //heMesh = HalfEdgeMesh.makeFromFile("Assets/Meshes/pentakis_decodahedron.halfedge");
         Debug.Log("HalfEdgeMesh: " + heMesh.halfEdges.Count + " " + heMesh.vertices.Count + " " + heMesh.edges.Count + " " + heMesh.faces.Count);
     }
 
@@ -20,7 +24,14 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown("s"))
         {
-
+            var vertexIds = new List<int>(heMesh.vertices.Keys);
+            int vId = vertexIds[rnd.Next(vertexIds.Count)];
+            Vertex randomVertex = heMesh.vertices[vId];
+            List<HalfEdge> halfEdges = randomVertex.GetHalfEdges();
+            int ix1 = rnd.Next(halfEdges.Count);
+            int ix2 = (ix1 + halfEdges.Count / 2) % halfEdges.Count;
+            heMesh.VertexSplit(randomVertex, halfEdges[ix1], halfEdges[ix2]);
+        }
     }
 
     void UpdateCellPositions()
