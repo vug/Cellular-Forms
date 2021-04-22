@@ -6,7 +6,6 @@ public class CellVisualizer : MonoBehaviour
 {
     public Parameters parameters;
     public static GameObject cellPrefab;
-    private System.Random rnd;
     private Dictionary<int, Cell> cells;
     private HalfEdgeMesh heMesh;
 
@@ -15,7 +14,7 @@ public class CellVisualizer : MonoBehaviour
     {
         this.heMesh = Main.heMesh;
         cellPrefab = parameters.cellPrefab;
-        rnd = new System.Random();
+        
 
         cells = new Dictionary<int, Cell>();
     }

@@ -20,21 +20,7 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown("s"))
         {
-            //var indices = new List<int>(cells.Keys);
-            //splitCell(cells[indices[rnd.Next(cells.Count)]]);
-        }
 
-        //// Keep cells at the center
-        //Vector3 center = Vector3.zero;
-        //foreach (Cell cell in cells.Values)
-        //{
-        //    center += cell.transform.position;
-        //}
-        //center /= cells.Count;
-        //foreach (Cell cell in cells.Values)
-        //{
-        //    cell.transform.position -= center;
-        //}
     }
 
     void UpdateCellPositions()
@@ -87,7 +73,7 @@ public class Main : MonoBehaviour
             + parameters.planarFactor * (planarTarget - p)
             + parameters.bulgeFactor * (bulgeTarget - p);
 
-        //return v.position + Random.insideUnitSphere * 0.01f;
+        //p += Random.insideUnitSphere * 0.01f;
         return p;
     }
 
