@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,39 +16,25 @@ public class CellVisualizer : MonoBehaviour
         this.heMesh = Main.heMesh;
         cellPrefab = parameters.cellPrefab;
         rnd = new System.Random();
-        // tetrahedron, octahedron, icosahedron, pentakis_decodahedron
-        cells = makeFromHalfEdgeMesh(heMesh);
-        foreach (Cell cell in cells.Values)
-        {
-            cell.updateNormal();
-        }
+
+        cells = new Dictionary<int, Cell>();
     }
 
-    public Dictionary<int, Cell> makeFromHalfEdgeMesh(HalfEdgeMesh heMesh)
+    void Update()
     {
-        Dictionary<int, Cell> cells = new Dictionary<int, Cell>();
-
         foreach (var entry in heMesh.vertices)
         {
-            GameObject obj = Instantiate(cellPrefab);
-            Cell c = obj.GetComponent<Cell>();
-            c.transform.position = entry.Value.position;
-            cells[entry.Key] = c;
-        }
-        foreach (var entry in heMesh.vertices)
-        {
-            int id = entry.Key;
-            Vertex v = entry.Value;
-            HalfEdge h = v.halfEdge;
-            do
+            if (!cells.ContainsKey(entry.Key))
             {
-                HalfEdge ht = h.twin;
-                Vertex w = ht.vertex;
-                cells[id].links.Add(cells[w.id]);
-                h = ht.next;
-            } while (h != v.halfEdge);
+                GameObject obj = Instantiate(cellPrefab);
+                cells[entry.Key] = obj.GetComponent<Cell>();
+            }
         }
-        return cells;
+
+        foreach (int ix in heMesh.vertices.Keys)
+        {
+            cells[ix].transform.position = heMesh.vertices[ix].position;
+        }
     }
 
     public Cell[] makeTetrahedron()
@@ -85,107 +70,5 @@ public class CellVisualizer : MonoBehaviour
         }
 
         return cells;
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown("s"))
-        {
-            var indices = new List<int>(cells.Keys);
-            splitCell(cells[indices[rnd.Next(cells.Count)]]);
-        }
-
-        // Keep cells at the center
-        Vector3 center = Vector3.zero;
-        foreach (Cell cell in cells.Values)
-        {
-            center += cell.transform.position;
-        }
-        center /= cells.Count;
-        foreach (Cell cell in cells.Values)
-        {
-            cell.transform.position -= center;
-        }
-
-        // Update triangular mesh vertex positions with Cell positions
-        foreach (KeyValuePair<int, Cell> entry in cells)
-        {
-            int vix = entry.Key;
-            Cell cell = entry.Value;
-            heMesh.vertices[vix].position = cell.transform.position;
-            //MeshGenerationStudy.heMesh.vertices[vix].position += Random.insideUnitSphere * 0.02f;
-        }
-
-    }
-
-    public void splitCell(Cell parent)
-    {
-        float d_closest = float.MaxValue;
-        int ix_closest = -1;
-        for (int i = 0; i < parent.links.Count; i++)
-        {
-            Cell other = parent.links[i];
-            float d = (other.transform.position - parent.transform.position).magnitude;
-            if (d < d_closest)
-            {
-                ix_closest = i;
-                d_closest = d;
-            }
-        }
-        int ix_opposite = (ix_closest + parent.links.Count / 2) % parent.links.Count;
-        Debug.Log("closest: " + ix_closest + ", opposite: " + ix_opposite);
-
-        GameObject obj = Instantiate(cellPrefab);
-        Cell child = obj.GetComponent<Cell>();
-        child.transform.position = parent.transform.position;
-
-        int id = (new List<int>(cells.Keys)).Max() + 1;
-        cells[id] = child;
-
-        int ix_from = Mathf.Min(ix_closest, ix_opposite);
-        int ix_to = Mathf.Max(ix_closest, ix_opposite);
-        Debug.Log("from: " + ix_from + ", to: " + ix_to);
-
-        Vector3 child_pos = child.transform.position;
-        Vector3 parent_pos = parent.transform.position;
-        List<Cell> toRemoveFromParent = new List<Cell>();
-        for (int ix = 0; ix < parent.links.Count; ix++)
-        {
-            Cell cell = parent.links[ix];
-            if (ix == ix_from || ix == ix_to)
-            {
-                child_pos += cell.transform.position;
-
-                child.links.Add(cell);
-                cell.links.Add(child);
-
-                parent_pos += cell.transform.position;
-            }
-            else if (ix > ix_from && ix < ix_to)
-            {
-                child_pos += cell.transform.position;
-
-                child.links.Add(cell);
-                cell.links.Add(child);
-                toRemoveFromParent.Add(cell);
-            }
-            else
-            {
-                parent_pos += cell.transform.position;
-            }
-        }
-        foreach(Cell cell in toRemoveFromParent)
-        {
-            parent.links.Remove(cell);
-            cell.links.Remove(parent);
-        }
-
-        child.links.Add(parent);
-        parent.links.Add(child);
-        Debug.Log("child links: " + child.links.Count + " parent links: " + parent.links.Count);
-        child.transform.position = child_pos /= (child.links.Count + 1);
-        parent.transform.position = parent_pos /= (parent.links.Count + 1);
-        child.updateNormal();
-        parent.updateNormal();
     }
 }

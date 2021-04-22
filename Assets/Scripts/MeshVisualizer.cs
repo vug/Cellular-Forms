@@ -19,17 +19,18 @@ public class MeshVisualizer : MonoBehaviour
     {
         MeshFilter meshFilter = GetComponent<MeshFilter>();
         // TODO: when called from Update below heMesh.convertToMesh() generates inside-out faces.
-        //meshFilter.mesh = heMesh.convertToMesh();
-        //Array.Reverse(meshFilter.mesh.triangles, 0, meshFilter.mesh.triangles.Length);
-        Vector3[] vertices = meshFilter.mesh.vertices;
+        meshFilter.mesh = heMesh.convertToMesh();
         
-        // Update existing mesh vertices instead of creating a new Mesh from scratch.
-        int newId = 0;
-        foreach (Vertex v in heMesh.vertices.Values)
-        {
-            vertices[newId] = v.position;
-            newId++;
-        }
-        meshFilter.mesh.vertices = vertices;
+        //Array.Reverse(meshFilter.mesh.triangles, 0, meshFilter.mesh.triangles.Length);
+        //Vector3[] vertices = meshFilter.mesh.vertices;
+        
+        //// Update existing mesh vertices instead of creating a new Mesh from scratch.
+        //int newId = 0;
+        //foreach (Vertex v in heMesh.vertices.Values)
+        //{
+        //    vertices[newId] = v.position;
+        //    newId++;
+        //}
+        //meshFilter.mesh.vertices = vertices;
     }
 }

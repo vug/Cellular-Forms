@@ -19,17 +19,19 @@ public class Vertex
     public HalfEdge halfEdge;
     public Vector3 position;
 
-    // Only works if not on boundary
-    public void traverseNeighbors()
+    public List<Vertex> GetNeighbors()
     {
+        List<Vertex> neighbors = new List<Vertex>();
         HalfEdge h = this.halfEdge;
+        int num_steps = 0;
         do
         {
-            h = h.twin;
-            Vertex v = h.vertex;
-            Debug.Log(v.position);
-            h = h.next;
-        } while (h != null || h != this.halfEdge);
+            HalfEdge ht = h.twin;
+            neighbors.Add(ht.vertex);
+            h = ht.next;
+            num_steps++;
+        } while (h != null && h != this.halfEdge && num_steps < 1000);
+        return neighbors;
     }
 }
 

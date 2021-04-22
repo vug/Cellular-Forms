@@ -21,86 +21,86 @@ public class Cell : MonoBehaviour
 
     void Update()
     {
-        Vector3 p = this.transform.position;
+        //Vector3 p = this.transform.position;
 
-        Vector3 springTarget = Vector3.zero;
-        Vector3 planarTarget = Vector3.zero;
-        //Vector3 bulgeTarget = Vector3.zero;
-        float bulgeDist = 0.0f;
-        foreach (Cell other in this.links)
-        {
-            Vector3 q = other.transform.position;
-            Vector3 d = q - p;
-            springTarget += q + parameters.linkRestLength * -d.normalized;
-            planarTarget += q;
+        //Vector3 springTarget = Vector3.zero;
+        //Vector3 planarTarget = Vector3.zero;
+        ////Vector3 bulgeTarget = Vector3.zero;
+        //float bulgeDist = 0.0f;
+        //foreach (Cell other in this.links)
+        //{
+        //    Vector3 q = other.transform.position;
+        //    Vector3 d = q - p;
+        //    springTarget += q + parameters.linkRestLength * -d.normalized;
+        //    planarTarget += q;
 
-            float dSqr = d.sqrMagnitude;
-            float rSqr = parameters.linkRestLength * parameters.linkRestLength;
-            if (dSqr < rSqr) // can't push if too far away
-            {
-                float dot = Vector3.Dot(d, normal);
-                bulgeDist += Mathf.Sqrt(rSqr - dSqr + dot * dot) + dot;
-            }
-        }
-        springTarget /= links.Count;
-        planarTarget /= links.Count;
-        Vector3 bulgeTarget = p + normal * (bulgeDist / links.Count);
+        //    float dSqr = d.sqrMagnitude;
+        //    float rSqr = parameters.linkRestLength * parameters.linkRestLength;
+        //    if (dSqr < rSqr) // can't push if too far away
+        //    {
+        //        float dot = Vector3.Dot(d, normal);
+        //        bulgeDist += Mathf.Sqrt(rSqr - dSqr + dot * dot) + dot;
+        //    }
+        //}
+        //springTarget /= links.Count;
+        //planarTarget /= links.Count;
+        //Vector3 bulgeTarget = p + normal * (bulgeDist / links.Count);
 
-        this.transform.position = p 
-            + parameters.springFactor * (springTarget - p) 
-            + parameters.planarFactor * (planarTarget - p) 
-            + parameters.bulgeFactor * (bulgeTarget - p);
+        //this.transform.position = p 
+        //    + parameters.springFactor * (springTarget - p) 
+        //    + parameters.planarFactor * (planarTarget - p) 
+        //    + parameters.bulgeFactor * (bulgeTarget - p);
 
-        debugCellInfo.springTarget = springTarget;
-        debugCellInfo.planarTarget = planarTarget;
-        debugCellInfo.bulgeTarget = bulgeTarget;
+        //debugCellInfo.springTarget = springTarget;
+        //debugCellInfo.planarTarget = planarTarget;
+        //debugCellInfo.bulgeTarget = bulgeTarget;
 
-        if (Input.GetKeyDown("d"))
-        {
-            shouldDrawDebug = true;
-        }
-        if (Input.GetKeyDown("f"))
-        {
-            shouldDrawDebug = false;
-        }
+        //if (Input.GetKeyDown("d"))
+        //{
+        //    shouldDrawDebug = true;
+        //}
+        //if (Input.GetKeyDown("f"))
+        //{
+        //    shouldDrawDebug = false;
+        //}
     }
 
-    public void updateNormal()
-    {
-        Vector3 p0 = transform.position;
-        Vector3 p1 = links[links.Count - 1].transform.position;
-        Vector3 triangle_normals_total = Vector3.zero;
-        foreach (Cell cell in links)
-        {
-            Vector3 p2 = cell.transform.position;
-            triangle_normals_total += Vector3.Cross(p1 - p0, p2 - p0).normalized;
-            p1 = p2;
-        }
-        normal = triangle_normals_total.normalized;
-    }
+    //public void updateNormal()
+    //{
+    //    Vector3 p0 = transform.position;
+    //    Vector3 p1 = links[links.Count - 1].transform.position;
+    //    Vector3 triangle_normals_total = Vector3.zero;
+    //    foreach (Cell cell in links)
+    //    {
+    //        Vector3 p2 = cell.transform.position;
+    //        triangle_normals_total += Vector3.Cross(p1 - p0, p2 - p0).normalized;
+    //        p1 = p2;
+    //    }
+    //    normal = triangle_normals_total.normalized;
+    //}
 
-    private void OnDrawGizmosSelected()
-    {
-        if (!shouldDrawDebug) { return; }
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(debugCellInfo.springTarget, 0.1f);
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(debugCellInfo.planarTarget, 0.1f);
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(debugCellInfo.bulgeTarget, 0.1f);
+    //private void OnDrawGizmosSelected()
+    //{
+    //    if (!shouldDrawDebug) { return; }
+    //    Gizmos.color = Color.blue;
+    //    Gizmos.DrawSphere(debugCellInfo.springTarget, 0.1f);
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawSphere(debugCellInfo.planarTarget, 0.1f);
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawSphere(debugCellInfo.bulgeTarget, 0.1f);
 
-        Gizmos.color = Color.white;
-        //foreach (Cell other in links)
-        for (int ix = 0; ix < links.Count; ix++)
-        {
-            Cell other = links[ix];
-            Gizmos.DrawLine(transform.position, other.transform.position);
-            GUIStyle style = new GUIStyle();
-            style.normal.textColor = Color.red;
-            UnityEditor.Handles.Label(other.transform.position, "" + ix, style);
-        }
+    //    Gizmos.color = Color.white;
+    //    //foreach (Cell other in links)
+    //    for (int ix = 0; ix < links.Count; ix++)
+    //    {
+    //        Cell other = links[ix];
+    //        Gizmos.DrawLine(transform.position, other.transform.position);
+    //        GUIStyle style = new GUIStyle();
+    //        style.normal.textColor = Color.red;
+    //        UnityEditor.Handles.Label(other.transform.position, "" + ix, style);
+    //    }
 
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawLine(transform.position, transform.position + normal);
-    }
+    //    Gizmos.color = Color.cyan;
+    //    Gizmos.DrawLine(transform.position, transform.position + normal);
+    //}
 }
