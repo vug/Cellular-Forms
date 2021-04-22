@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
-public class MeshGenerationStudy : MonoBehaviour
+public class MeshVisualizer : MonoBehaviour
 {
-    public static HalfEdgeMesh heMesh;
+    private HalfEdgeMesh heMesh;
     public static MeshFilter meshFilter;
 
     void Start()
     {
-        heMesh = HalfEdgeMesh.makeFromFile("Assets/Meshes/icosahedron.halfedge");
-        Debug.Log("HalfEdgeMesh: " + heMesh.halfEdges.Count + " " + heMesh.vertices.Count + " " + heMesh.edges.Count + " " + heMesh.faces.Count);
+        this.heMesh = Main.heMesh;
         MeshFilter meshFilter = GetComponent<MeshFilter>();
         meshFilter.mesh = heMesh.convertToMesh();
     }

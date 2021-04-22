@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CellsInitializer : MonoBehaviour
+public class CellVisualizer : MonoBehaviour
 {
     public Parameters parameters;
     public static GameObject cellPrefab;
     private System.Random rnd;
     private Dictionary<int, Cell> cells;
+    private HalfEdgeMesh heMesh;
+
 
     void Start()
     {
+        this.heMesh = Main.heMesh;
         cellPrefab = parameters.cellPrefab;
         rnd = new System.Random();
         // tetrahedron, octahedron, icosahedron, pentakis_decodahedron
-        cells = makeFromHalfEdgeMesh(MeshGenerationStudy.heMesh);
+        cells = makeFromHalfEdgeMesh(heMesh);
         foreach (Cell cell in cells.Values)
         {
             cell.updateNormal();
@@ -109,12 +112,13 @@ public class CellsInitializer : MonoBehaviour
         {
             int vix = entry.Key;
             Cell cell = entry.Value;
-            MeshGenerationStudy.heMesh.vertices[vix].position = cell.transform.position;
+            heMesh.vertices[vix].position = cell.transform.position;
+            //MeshGenerationStudy.heMesh.vertices[vix].position += Random.insideUnitSphere * 0.02f;
         }
 
     }
 
-    public static void splitCell(Cell parent)
+    public void splitCell(Cell parent)
     {
         float d_closest = float.MaxValue;
         int ix_closest = -1;
@@ -134,6 +138,9 @@ public class CellsInitializer : MonoBehaviour
         GameObject obj = Instantiate(cellPrefab);
         Cell child = obj.GetComponent<Cell>();
         child.transform.position = parent.transform.position;
+
+        int id = (new List<int>(cells.Keys)).Max() + 1;
+        cells[id] = child;
 
         int ix_from = Mathf.Min(ix_closest, ix_opposite);
         int ix_to = Mathf.Max(ix_closest, ix_opposite);
