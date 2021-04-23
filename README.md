@@ -2,6 +2,14 @@
 
 A reproduction of [Andy Lomas](https://andylomas.com/)'s "Cellular Forms" work in Unity as explained in this [paper](https://andylomas.com/extra/andylomas_paper_cellular_forms_aisb50.pdf).
 
+## v0.9 Repulsion Force
+
+This was the last inter-cellular force mention in the paper. Cells that are closers than certain distance, and are not linked/connected (vertices connected via edge) exert a force on each other that keeps the volume of the tissue. Otherwise the tissue tends to collapse on itself.
+
+![Cellular Forms - 04 - Repulsion - PC, Mac  Linux Standalone - Unity 2020 3 3f1 Personal _DX11_ 2021-04-23 00-38-40_Trim](https://user-images.githubusercontent.com/6636020/115820140-3b650a00-a3ce-11eb-9ea4-8446a377a990.gif)
+
+Current implementation is unfortunately a basic double loop which is unfortunately `O(N^2)` with the number of cells. 
+
 ## v0.8 Vertex Split with HalfEdgeMesh. Mesh and Cell visualizations follow HalfEdge.
 
 Unlike v0.5, this time neighborhood/connection/link structure does not turn into spaghetti, but preserve local connections, which keeps the mesh as triangular mesh while the tissue is growing! This was a big milestone. ^_^
@@ -22,10 +30,3 @@ Also added sphere/cell radius as a new visualization parameter.
 Unity comes with a Mesh class that works with an array of vertices and an array of triangle corner indices. This version converts half edge to unity mesh. And also visualizes it with a flat shading material that required installation of Universal Rendering Pipeline (URL) and Shader Graph packages. 
 
 ![Cellular Forms - 03 - HalfEdge - PC, Mac  Linux Standalone - Unity 2020 3 3f1 Personal_ _DX11_ 2021-04-20 02-10-07_Trim](https://user-images.githubusercontent.com/6636020/115346136-c7342780-a17d-11eb-9f0c-fa689f0c2a81.gif)
-
-
-## v0.5 Bulge "Force" and Random Cell Division
-
-Failed attempt as cell division. The child cell and parent cell are not sharing linked cells in a nice way, it turns into spaghetti. Lol. Need to learn "vertex split" algorithm and Half-edge data structure etc. first.
-
-![Cellular Forms - 02 - Tetrahedron - PC, Mac  Linux Standalone - Unity 2020 3 3f1 Personal _DX11_ 2021-04-10 22-59-59_Trim (1)](https://user-images.githubusercontent.com/6636020/114338424-0a105280-9b21-11eb-868a-13c384fce611.gif)
