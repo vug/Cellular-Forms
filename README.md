@@ -2,6 +2,16 @@
 
 A reproduction of [Andy Lomas](https://andylomas.com/)'s "Cellular Forms" work in Unity as explained in this [paper](https://andylomas.com/extra/andylomas_paper_cellular_forms_aisb50.pdf).
 
+See https://github.com/vug/cellular-forms/releases for progress history.
+
+## v0.10 Random nutrition based division
+
+Each cell gets some random amount of nutrition with a frame rate independent rate. When accumulated nutrition in a cell hits a threshold cell splits/divides.
+
+![Cellular Forms - 04 - Repulsion - PC, Mac  Linux Standalone - Unity 2020 3 3f1 Personal _DX11_ 2021-04-23 00-57-18_Trim](https://user-images.githubusercontent.com/6636020/115820869-b37fff80-a3cf-11eb-9f27-566f0179dab8.gif)
+
+Currently number of cells can go up to 750 on my machine down to a frame rate 20FPS. Need optimization!
+
 ## v0.9 Repulsion Force
 
 This was the last inter-cellular force mention in the paper. Cells that are closers than certain distance, and are not linked/connected (vertices connected via edge) exert a force on each other that keeps the volume of the tissue. Otherwise the tissue tends to collapse on itself.
@@ -23,10 +33,3 @@ This time we have a proper Main class that reads the `.halfedge` file. `HalfEdge
 Also moved the simulation logic to `Main` class. So, individual Cell instances does not compute things separately by themselves. This allowed to compute new positions first, and update all of them later. Which prevents drifts (common problem in badly coded physics simulations).
 
 Also added sphere/cell radius as a new visualization parameter.
-
-
-## v0.7 Creating a Unity Mesh from Half Edge Structure and Visualizing via Flat Shading Material
-
-Unity comes with a Mesh class that works with an array of vertices and an array of triangle corner indices. This version converts half edge to unity mesh. And also visualizes it with a flat shading material that required installation of Universal Rendering Pipeline (URL) and Shader Graph packages. 
-
-![Cellular Forms - 03 - HalfEdge - PC, Mac  Linux Standalone - Unity 2020 3 3f1 Personal_ _DX11_ 2021-04-20 02-10-07_Trim](https://user-images.githubusercontent.com/6636020/115346136-c7342780-a17d-11eb-9f0c-fa689f0c2a81.gif)
