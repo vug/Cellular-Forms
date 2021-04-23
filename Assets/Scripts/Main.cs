@@ -56,7 +56,8 @@ public class Main : MonoBehaviour
 
         Vector3 springTarget = Vector3.zero;
         Vector3 planarTarget = Vector3.zero;
-        //Vector3 bulgeTarget = Vector3.zero;
+        Vector3 collisionOffset = Vector3.zero;
+
         float bulgeDist = 0.0f;
         List<Vertex> links = v.GetNeighbors();
         Vector3 normal = GetCellNormal(v, links);
@@ -75,6 +76,16 @@ public class Main : MonoBehaviour
                 bulgeDist += Mathf.Sqrt(rSqr - dSqr + dot * dot) + dot;
             }
         }
+        float roi2 = parameters.radiusOfInfluence * parameters.radiusOfInfluence;
+        foreach (Vertex u in heMesh.vertices.Values)
+        {
+            if (u == v || links.Contains(u) || (u.position - v.position).sqrMagnitude > roi2)
+            {
+                continue;
+            }
+            Vector3 d = p - u.position;
+            collisionOffset += (1 - d.sqrMagnitude / roi2) * d.normalized;
+        }
         springTarget /= links.Count;
         planarTarget /= links.Count;
         Vector3 bulgeTarget = p + normal * (bulgeDist / links.Count);
@@ -82,7 +93,8 @@ public class Main : MonoBehaviour
         p = p
             + parameters.springFactor * (springTarget - p)
             + parameters.planarFactor * (planarTarget - p)
-            + parameters.bulgeFactor * (bulgeTarget - p);
+            + parameters.bulgeFactor * (bulgeTarget - p)
+            + parameters.repulsionStrength * collisionOffset;
 
         //p += Random.insideUnitSphere * 0.01f;
         return p;

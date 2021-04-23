@@ -16,5 +16,8 @@ MonoBehaviour:
   springFactor: 0.23456
   planarFactor: 0.25
   bulgeFactor: 0.65
+  radiusOfInfluence: 1
+  repulsionStrength: 1
   cellPrefab: {fileID: 8745555593182908486, guid: 03b2b9a0fe978294ca34e808368073fb, type: 3}
   cellColor: {r: 0, g: 0, b: 0, a: 0}
+  cellRadius: 0.5

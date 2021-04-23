@@ -10,6 +10,8 @@ public class Parameters : ScriptableObject
     public float springFactor;
     public float planarFactor;
     public float bulgeFactor;
+    public float radiusOfInfluence;
+    public float repulsionStrength; 
 
     [Header("Visualization")]
     public GameObject cellPrefab;
