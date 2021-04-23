@@ -41,6 +41,9 @@ public class CellVisualizer : MonoBehaviour
         foreach (int ix in heMesh.vertices.Keys)
         {
             Cell cell = cellObjs[ix].GetComponent<Cell>();
+            Material mymat = cellObjs[ix].GetComponent<Renderer>().material;
+            //mymat.SetColor("_EmissionColor", Color.red);
+            mymat.color = Color.Lerp(Color.gray, Color.yellow, Mathf.Pow(Main.nutrition[ix], 4.0f));
             cell.transform.position = heMesh.vertices[ix].position;
         }
     }

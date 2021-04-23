@@ -7,7 +7,7 @@ public class Main : MonoBehaviour
     private System.Random rnd;
     public Parameters parameters;
     public static HalfEdgeMesh heMesh;
-    private Dictionary<int, float> nutrition;
+    public static Dictionary<int, float> nutrition;
 
     void Awake()
     {
