@@ -7,12 +7,18 @@ public class Main : MonoBehaviour
     private System.Random rnd;
     public Parameters parameters;
     public static HalfEdgeMesh heMesh;
+    private Dictionary<int, float> nutrition;
 
     void Awake()
     {
         rnd = new System.Random();
         //heMesh = HalfEdgeMesh.makeFromFile("Assets/Meshes/tetrahedron.halfedge");
         heMesh = HalfEdgeMesh.makeFromFile("Assets/Meshes/icosahedron.halfedge");
+        nutrition = new Dictionary<int, float>();
+        foreach (int ix in heMesh.vertices.Keys)
+        {
+            nutrition[ix] = 0.0f;
+        }
         //heMesh = HalfEdgeMesh.makeFromFile("Assets/Meshes/pentakis_decodahedron.halfedge");
         Debug.Log("HalfEdgeMesh: " + heMesh.halfEdges.Count + " " + heMesh.vertices.Count + " " + heMesh.edges.Count + " " + heMesh.faces.Count);
     }
@@ -21,6 +27,24 @@ public class Main : MonoBehaviour
     void Update()
     {
         UpdateCellPositions();
+        List<int> indices = new List<int>(nutrition.Keys);
+        foreach(int ix in indices)
+        {
+            nutrition[ix] += rnd.Next(10000) * 0.00000025f;
+            if (nutrition[ix] > 1.0 && heMesh.vertices.Count < 750)
+            {
+                Vertex v = heMesh.vertices[ix];
+                nutrition.Remove(v.id);
+                List<HalfEdge> halfEdges = v.GetHalfEdges();
+                int ix1 = rnd.Next(halfEdges.Count);
+                int ix2 = (ix1 + halfEdges.Count / 2) % halfEdges.Count;
+                Edge e = heMesh.VertexSplit(v, halfEdges[ix1], halfEdges[ix2]);
+                Vertex v1 = e.halfEdge.vertex;
+                Vertex v2 = e.halfEdge.twin.vertex;
+                nutrition[v1.id] = nutrition[v2.id] = 0.0f;
+                Debug.Log("num cells: " + heMesh.vertices.Count);
+            }
+        }
 
         if (Input.GetKeyDown("s"))
         {
@@ -31,6 +55,7 @@ public class Main : MonoBehaviour
             int ix1 = rnd.Next(halfEdges.Count);
             int ix2 = (ix1 + halfEdges.Count / 2) % halfEdges.Count;
             heMesh.VertexSplit(randomVertex, halfEdges[ix1], halfEdges[ix2]);
+            Debug.Log("num cells: " + heMesh.vertices.Count);
         }
     }
 
