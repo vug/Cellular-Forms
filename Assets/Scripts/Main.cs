@@ -38,15 +38,17 @@ public class Main : MonoBehaviour
     {
         // Compute new positions without updating first
         Dictionary<int, Vector3> newPositions = new Dictionary<int, Vector3>();
+        Vector3 center = Vector3.zero;
         foreach(KeyValuePair<int, Vertex> entry in heMesh.vertices)
         {
-            newPositions[entry.Key] = NewCellPosition(entry.Value);
+            center += newPositions[entry.Key] = NewCellPosition(entry.Value);
         }
+        center /= heMesh.vertices.Count;
 
         // Update positions
         foreach (KeyValuePair<int, Vertex> entry in heMesh.vertices)
         {
-            entry.Value.position = newPositions[entry.Key];
+            entry.Value.position = newPositions[entry.Key] - center;
         }
     }
 
