@@ -17,4 +17,5 @@ public class Parameters : ScriptableObject
     public GameObject cellPrefab;
     public Color cellColor;
     public float cellRadius;
+    public float cameraDistance;
 }

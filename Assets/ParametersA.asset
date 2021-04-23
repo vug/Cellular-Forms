@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 608aa4384a354d84dbe394c4246a16e5, type: 3}
   m_Name: ParametersA
   m_EditorClassIdentifier: 
-  linkRestLength: 1.87
-  springFactor: 0.23456
-  planarFactor: 0.25
-  bulgeFactor: 0.65
-  radiusOfInfluence: 1
-  repulsionStrength: 1
+  linkRestLength: 2.11
+  springFactor: 0.4
+  planarFactor: 0.2348
+  bulgeFactor: 0.1
+  radiusOfInfluence: 1.5
+  repulsionStrength: 0.26
   cellPrefab: {fileID: 8745555593182908486, guid: 03b2b9a0fe978294ca34e808368073fb, type: 3}
   cellColor: {r: 0, g: 0, b: 0, a: 0}
-  cellRadius: 0.5
+  cellRadius: 1.65
+  cameraDistance: 21.73
