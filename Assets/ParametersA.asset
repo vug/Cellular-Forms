@@ -19,6 +19,6 @@ MonoBehaviour:
   radiusOfInfluence: 1.5
   repulsionStrength: 0.26
   cellPrefab: {fileID: 8745555593182908486, guid: 03b2b9a0fe978294ca34e808368073fb, type: 3}
-  cellColor: {r: 0, g: 0, b: 0, a: 0}
   cellRadius: 1.65
   cameraDistance: 21.73
+  nutritionRate: 10

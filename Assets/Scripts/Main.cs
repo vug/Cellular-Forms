@@ -30,7 +30,7 @@ public class Main : MonoBehaviour
         List<int> indices = new List<int>(nutrition.Keys);
         foreach(int ix in indices)
         {
-            nutrition[ix] += rnd.Next(10000) * 0.00000025f;
+            nutrition[ix] += rnd.Next(10000) * 0.00001f * parameters.nutritionRate * Time.deltaTime;
             if (nutrition[ix] > 1.0 && heMesh.vertices.Count < 750)
             {
                 Vertex v = heMesh.vertices[ix];
