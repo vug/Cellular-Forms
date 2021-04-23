@@ -54,7 +54,10 @@ public class Main : MonoBehaviour
             List<HalfEdge> halfEdges = randomVertex.GetHalfEdges();
             int ix1 = rnd.Next(halfEdges.Count);
             int ix2 = (ix1 + halfEdges.Count / 2) % halfEdges.Count;
-            heMesh.VertexSplit(randomVertex, halfEdges[ix1], halfEdges[ix2]);
+            Edge e = heMesh.VertexSplit(randomVertex, halfEdges[ix1], halfEdges[ix2]);
+            Vertex v1 = e.halfEdge.vertex;
+            Vertex v2 = e.halfEdge.twin.vertex;
+            nutrition[v1.id] = nutrition[v2.id] = 0.0f;
             Debug.Log("num cells: " + heMesh.vertices.Count);
         }
     }
